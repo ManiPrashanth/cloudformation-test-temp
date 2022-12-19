@@ -1,0 +1,7 @@
+---
+- name: copying file
+  hosts: localhost
+  tasks:
+   - copy:
+       src: /root/wissen/HR
+       dest: /root/wisseninfotech/wayfair

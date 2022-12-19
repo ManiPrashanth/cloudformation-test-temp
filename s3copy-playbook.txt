@@ -1,0 +1,26 @@
+---
+ - name: Bucket copy
+   hosts: localhost
+   become_method: sudo
+   become_user: root
+   become: true
+   gather_facts: False
+   tasks:
+     - name: Get s3 objects     # Make list of directory and files in register
+       aws_s3:
+         bucket: "playbook-bucket-demo"
+         mode: list
+         aws_access_key: "AKIA3IXRWPDJIW4BUPZR"
+         aws_secret_key: "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"
+       register: s3_object_list
+     - name: Download s3 objects       # Download files in there appropriate directory on serverside  
+       aws_s3:
+         bucket: "playbook-bucket-demo"
+         object: "kafka-log/kafka-log.txt"
+         mode: get
+         dest: "/usr/local/wissen.txt"
+         aws_access_key: "AKIA3IXRWPDJIW4BUPZR"
+         aws_secret_key: "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"
+       with_items:
+         - "{{ s3_object_list.s3_keys  }}"
+       ignore_errors: true

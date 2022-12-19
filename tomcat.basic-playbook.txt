@@ -1,0 +1,13 @@
+---
+- name: tomcat installation & service started
+  hosts: localhost
+  become: true
+  tasks:
+  - name: install tomcat
+    yum:
+        name: tomcat
+        state: latest
+  - name: service tomcat
+    service:
+        name: tomcat
+        state: started
